@@ -7,7 +7,13 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -21,6 +27,7 @@ export class ProductsController {
 
   @Post()
   @ApiCreatedResponse({ type: ProductDto })
+  @ApiBadRequestResponse({ description: 'Error: Bad Request' })
   async createProduct(@Body() createProducDto: CreateProductDto) {
     return await this.productsService.createProduct(createProducDto);
   }
@@ -33,12 +40,14 @@ export class ProductsController {
 
   @Get(':id')
   @ApiOkResponse({ type: ProductIncludeReviewsDto })
+  @ApiNotFoundResponse({ description: 'Error: Not Found' })
   async getOneProduct(@Param('id') id: string) {
     return await this.productsService.getOneProduct(id);
   }
 
   @Put(':id')
   @ApiOkResponse({ type: ProductIncludeReviewsDto })
+  @ApiNotFoundResponse({ description: 'Error: Not Found' })
   async updateProduct(
     @Param('id') id: string,
     @Body() updateProductDto: UpdateProductDto,
@@ -48,6 +57,7 @@ export class ProductsController {
 
   @Delete(':id')
   @ApiOkResponse({ type: ProductIncludeReviewsDto })
+  @ApiNotFoundResponse({ description: 'Error: Not Found' })
   async deleteProduct(@Param('id') id: string) {
     return await this.productsService.deleteProduct(id);
   }

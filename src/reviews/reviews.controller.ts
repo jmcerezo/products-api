@@ -7,7 +7,12 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiCreatedResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { ReviewsService } from './reviews.service';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
@@ -32,12 +37,14 @@ export class ReviewsController {
 
   @Get(':id')
   @ApiOkResponse({ type: ReviewDto })
+  @ApiNotFoundResponse({ description: 'Error: Not Found' })
   async getOneReview(@Param('id') id: string) {
     return await this.reviewsService.getOneReview(id);
   }
 
   @Put(':id')
   @ApiOkResponse({ type: ReviewDto })
+  @ApiNotFoundResponse({ description: 'Error: Not Found' })
   async updateReview(
     @Param('id') id: string,
     @Body() updateReviewDto: UpdateReviewDto,
@@ -47,6 +54,7 @@ export class ReviewsController {
 
   @Delete(':id')
   @ApiOkResponse({ type: ReviewDto })
+  @ApiNotFoundResponse({ description: 'Error: Not Found' })
   async deleteReview(@Param('id') id: string) {
     return await this.reviewsService.deleteReview(id);
   }
