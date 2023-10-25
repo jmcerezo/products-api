@@ -10,17 +10,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Availability {
+  IN_STORE
+  ONLINE
+}
+
 model Product {
   id           String       @id @default(uuid())
   name         String       @unique
   description  String?
   price        Float
   sale         Boolean      @default(false)
-  reviews      Review[]
-  tags         Tag[]
   availability Availability
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
+  reviews      Review[]
 }
 
 model Review {
@@ -28,17 +32,6 @@ model Review {
   title     String
   content   String
   rating    Int
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   productId String
-}
-
-model Tag {
-  id       String    @id @default(uuid())
-  content  String
-  products Product[]
-}
-
-enum Availability {
-  IN_STORE
-  ONLINE
 }
