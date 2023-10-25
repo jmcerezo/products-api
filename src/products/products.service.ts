@@ -26,7 +26,7 @@ export class ProductsService {
   async getOneProduct(id: string) {
     return await this.databaseService.product.findUnique({
       where: { id },
-      include: { reviews: true, tags: true },
+      include: { reviews: true },
     });
   }
 
@@ -34,10 +34,14 @@ export class ProductsService {
     return await this.databaseService.product.update({
       where: { id },
       data: updateProductDto,
+      include: { reviews: true },
     });
   }
 
   async deleteProduct(id: string) {
-    return await this.databaseService.product.delete({ where: { id } });
+    return await this.databaseService.product.delete({
+      where: { id },
+      include: { reviews: true },
+    });
   }
 }
