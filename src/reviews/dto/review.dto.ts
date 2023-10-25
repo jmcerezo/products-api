@@ -1,7 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Prisma } from '@prisma/client';
+import { Review } from '@prisma/client';
 
-export class CreateReviewDto implements Prisma.ReviewUncheckedCreateInput {
+export class ReviewDto implements Review {
+  @ApiProperty({ example: '05ffabdb-58fa-4a73-8a05-7f5b80ecc0ab' })
+  readonly id: string;
+
   @ApiProperty({ example: 'Great Product' })
   readonly title: string;
 

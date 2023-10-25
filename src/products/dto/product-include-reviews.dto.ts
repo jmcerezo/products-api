@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { $Enums, Product, Review, Tag } from '@prisma/client';
+import { $Enums, Product, Review } from '@prisma/client';
 
-export class ProductResponseDto implements Product {
+export class ProductIncludeReviewsDto implements Product {
   @ApiProperty({ example: '69e9d7a0-6ecf-445d-ae00-854c67623d3f' })
   readonly id: string;
 
@@ -19,12 +19,6 @@ export class ProductResponseDto implements Product {
   @ApiProperty({ example: false })
   readonly sale: boolean;
 
-  @ApiProperty({ example: ['Basketball Equipment', 'Sports Equipment'] })
-  readonly reviews: Review[];
-
-  @ApiProperty({ example: ['Basketball Equipment', 'Sports Equipment'] })
-  readonly tags: Tag[];
-
   @ApiProperty({
     type: () => $Enums.Availability,
     enum: $Enums.Availability,
@@ -37,4 +31,17 @@ export class ProductResponseDto implements Product {
 
   @ApiProperty({ example: '2023-10-24T08:51:30.067Z' })
   readonly updatedAt: Date;
+
+  @ApiProperty({
+    example: [
+      {
+        id: '05ffabdb-58fa-4a73-8a05-7f5b80ecc0ab',
+        title: 'Great Product',
+        content: 'The quality is superb.',
+        rating: 5,
+        productId: '69e9d7a0-6ecf-445d-ae00-854c67623d3f',
+      },
+    ],
+  })
+  readonly reviews: Review[];
 }

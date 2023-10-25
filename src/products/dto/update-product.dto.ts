@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { $Enums, Prisma } from '@prisma/client';
 
-export class UpdateProductDto {
+export class UpdateProductDto implements Prisma.ProductUpdateInput {
   @ApiProperty({ example: 'ALL CONFERENCE INDOOR-OUTDOOR BASKETBALL' })
   readonly name: string;
 
@@ -20,14 +20,4 @@ export class UpdateProductDto {
     example: $Enums.Availability.ONLINE,
   })
   readonly availability: $Enums.Availability;
-
-  @ApiProperty({
-    example: {
-      create: [
-        { content: 'Basketball Equipment' },
-        { content: 'Sports Equipment' },
-      ],
-    },
-  })
-  readonly tags: Prisma.TagCreateNestedManyWithoutProductsInput;
 }
