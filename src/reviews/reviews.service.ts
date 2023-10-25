@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { DatabaseService } from './../database/database.service';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
@@ -18,19 +18,39 @@ export class ReviewsService {
   }
 
   async getOneReview(id: string) {
-    return await this.databaseService.review.findUnique({
+    const review = await this.databaseService.review.findUnique({
       where: { id },
     });
+
+    if (!review) {
+      throw new NotFoundException('Review does not exist.');
+    }
+
+    return review;
   }
 
   async updateReview(id: string, updateReviewDto: UpdateReviewDto) {
-    return await this.databaseService.review.update({
-      where: { id },
-      data: updateReviewDto,
-    });
+    try {
+      return await this.databaseService.review.update({
+        where: { id },
+        data: updateReviewDto,
+      });
+    } catch (error) {
+      if (error.code === 'P2025') {
+        throw new NotFoundException('Review does not exist.');
+      }
+    }
   }
 
   async deleteReview(id: string) {
-    return await this.databaseService.review.delete({ where: { id } });
+    try {
+      return await this.databaseService.review.delete({
+        where: { id },
+      });
+    } catch (error) {
+      if (error.code === 'P2025') {
+        throw new NotFoundException('Review does not exist.');
+      }
+    }
   }
 }
