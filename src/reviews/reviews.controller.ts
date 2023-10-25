@@ -20,34 +20,34 @@ export class ReviewsController {
 
   @Post()
   @ApiCreatedResponse({ type: ReviewDto })
-  async createProduct(@Body() createProducDto: CreateReviewDto) {
-    return await this.reviewsService.createReview(createProducDto);
+  async createReview(@Body() createReviewDto: CreateReviewDto) {
+    return await this.reviewsService.createReview(createReviewDto);
   }
 
   @Get()
   @ApiOkResponse({ type: ReviewDto })
-  async getAllProducts() {
+  async getAllReviews() {
     return await this.reviewsService.getAllReviews();
   }
 
   @Get(':id')
   @ApiOkResponse({ type: ReviewDto })
-  async getOneProduct(@Param('id') id: string) {
+  async getOneReview(@Param('id') id: string) {
     return await this.reviewsService.getOneReview(id);
   }
 
   @Put(':id')
   @ApiOkResponse({ type: ReviewDto })
-  async updateProduct(
+  async updateReview(
     @Param('id') id: string,
-    @Body() updateProductDto: UpdateReviewDto,
+    @Body() updateReviewDto: UpdateReviewDto,
   ) {
-    return await this.reviewsService.updateReview(id, updateProductDto);
+    return await this.reviewsService.updateReview(id, updateReviewDto);
   }
 
   @Delete(':id')
   @ApiOkResponse({ type: ReviewDto })
-  async deleteProduct(@Param('id') id: string) {
+  async deleteReview(@Param('id') id: string) {
     return await this.reviewsService.deleteReview(id);
   }
 }
