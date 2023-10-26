@@ -8,6 +8,14 @@ export class ReviewsService {
   constructor(private readonly databaseService: DatabaseService) {}
 
   async createReview(createReviewDto: CreateReviewDto) {
+    const product = await this.databaseService.product.findUnique({
+      where: { id: createReviewDto.productId },
+    });
+
+    if (!product) {
+      throw new NotFoundException('Product does not exist.');
+    }
+
     return await this.databaseService.review.create({
       data: createReviewDto,
     });
