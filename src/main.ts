@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ProductsModule } from './products/products.module';
 import { ReviewsModule } from './reviews/reviews.module';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -19,6 +20,8 @@ async function bootstrap() {
   SwaggerModule.setup('/', app, document, {
     customSiteTitle: 'Products API - Swagger UI',
   });
+
+  app.useGlobalPipes(new ValidationPipe());
 
   await app.listen(PORT);
 }

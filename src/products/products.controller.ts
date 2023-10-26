@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseUUIDPipe,
   Post,
   Put,
 } from '@nestjs/common';
@@ -41,7 +42,7 @@ export class ProductsController {
   @Get(':id')
   @ApiOkResponse({ type: ProductReviewsDto })
   @ApiNotFoundResponse({ description: 'Error: Not Found' })
-  async getOneProduct(@Param('id') id: string) {
+  async getOneProduct(@Param('id', new ParseUUIDPipe()) id: string) {
     return await this.productsService.getOneProduct(id);
   }
 
@@ -49,7 +50,7 @@ export class ProductsController {
   @ApiOkResponse({ type: ProductReviewsDto })
   @ApiNotFoundResponse({ description: 'Error: Not Found' })
   async updateProduct(
-    @Param('id') id: string,
+    @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updateProductDto: UpdateProductDto,
   ) {
     return await this.productsService.updateProduct(id, updateProductDto);
@@ -58,7 +59,7 @@ export class ProductsController {
   @Delete(':id')
   @ApiOkResponse({ type: ProductReviewsDto })
   @ApiNotFoundResponse({ description: 'Error: Not Found' })
-  async deleteProduct(@Param('id') id: string) {
+  async deleteProduct(@Param('id', new ParseUUIDPipe()) id: string) {
     return await this.productsService.deleteProduct(id);
   }
 }
