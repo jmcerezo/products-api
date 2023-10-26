@@ -17,7 +17,7 @@ import {
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { ProductIncludeReviewsDto } from './dto/product-include-reviews.dto';
+import { ProductReviewsDto } from './dto/product-reviews.dto';
 import { ProductDto } from './dto/product.dto';
 
 @Controller('products')
@@ -39,14 +39,14 @@ export class ProductsController {
   }
 
   @Get(':id')
-  @ApiOkResponse({ type: ProductIncludeReviewsDto })
+  @ApiOkResponse({ type: ProductReviewsDto })
   @ApiNotFoundResponse({ description: 'Error: Not Found' })
   async getOneProduct(@Param('id') id: string) {
     return await this.productsService.getOneProduct(id);
   }
 
   @Put(':id')
-  @ApiOkResponse({ type: ProductIncludeReviewsDto })
+  @ApiOkResponse({ type: ProductReviewsDto })
   @ApiNotFoundResponse({ description: 'Error: Not Found' })
   async updateProduct(
     @Param('id') id: string,
@@ -56,7 +56,7 @@ export class ProductsController {
   }
 
   @Delete(':id')
-  @ApiOkResponse({ type: ProductIncludeReviewsDto })
+  @ApiOkResponse({ type: ProductReviewsDto })
   @ApiNotFoundResponse({ description: 'Error: Not Found' })
   async deleteProduct(@Param('id') id: string) {
     return await this.productsService.deleteProduct(id);
