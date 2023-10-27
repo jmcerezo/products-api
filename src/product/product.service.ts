@@ -9,7 +9,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from '@prisma/client';
 
 @Injectable()
-export class ProductsService {
+export class ProductService {
   constructor(private readonly databaseService: DatabaseService) {}
 
   async createProduct(createProductDto: CreateProductDto): Promise<Product> {

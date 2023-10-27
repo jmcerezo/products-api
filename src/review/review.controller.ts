@@ -14,7 +14,7 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { ReviewsService } from './reviews.service';
+import { ReviewService } from './review.service';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
 import { ReviewDto } from './dto/review.dto';
@@ -22,21 +22,21 @@ import { Review } from '@prisma/client';
 
 @Controller('reviews')
 @ApiTags('reviews')
-export class ReviewsController {
-  constructor(private readonly reviewsService: ReviewsService) {}
+export class ReviewController {
+  constructor(private readonly reviewService: ReviewService) {}
 
   @Post()
   @ApiCreatedResponse({ type: ReviewDto })
   async createReview(
     @Body() createReviewDto: CreateReviewDto,
   ): Promise<Review> {
-    return await this.reviewsService.createReview(createReviewDto);
+    return await this.reviewService.createReview(createReviewDto);
   }
 
   @Get()
   @ApiOkResponse({ type: ReviewDto, isArray: true })
   async getAllReviews(): Promise<Review[]> {
-    return await this.reviewsService.getAllReviews();
+    return await this.reviewService.getAllReviews();
   }
 
   @Get(':id')
@@ -45,7 +45,7 @@ export class ReviewsController {
   async getOneReview(
     @Param('id', new ParseUUIDPipe()) id: string,
   ): Promise<Review> {
-    return await this.reviewsService.getOneReview(id);
+    return await this.reviewService.getOneReview(id);
   }
 
   @Put(':id')
@@ -55,7 +55,7 @@ export class ReviewsController {
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updateReviewDto: UpdateReviewDto,
   ): Promise<Review> {
-    return await this.reviewsService.updateReview(id, updateReviewDto);
+    return await this.reviewService.updateReview(id, updateReviewDto);
   }
 
   @Delete(':id')
@@ -64,6 +64,6 @@ export class ReviewsController {
   async deleteReview(
     @Param('id', new ParseUUIDPipe()) id: string,
   ): Promise<Review> {
-    return await this.reviewsService.deleteReview(id);
+    return await this.reviewService.deleteReview(id);
   }
 }

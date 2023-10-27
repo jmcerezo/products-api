@@ -1,8 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { ProductsModule } from './products/products.module';
-import { ReviewsModule } from './reviews/reviews.module';
+import { ProductModule } from './product/product.module';
+import { ReviewModule } from './review/review.module';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
@@ -15,7 +15,7 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config, {
-    include: [ProductsModule, ReviewsModule],
+    include: [ProductModule, ReviewModule],
   });
   SwaggerModule.setup('/', app, document, {
     customSiteTitle: 'Products API - Swagger UI',

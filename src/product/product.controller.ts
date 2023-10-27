@@ -15,7 +15,7 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { ProductsService } from './products.service';
+import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductReviewsDto } from './dto/product-reviews.dto';
@@ -24,8 +24,8 @@ import { Product } from '@prisma/client';
 
 @Controller('products')
 @ApiTags('products')
-export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
+export class ProductController {
+  constructor(private readonly productService: ProductService) {}
 
   @Post()
   @ApiCreatedResponse({ type: ProductDto })
@@ -33,13 +33,13 @@ export class ProductsController {
   async createProduct(
     @Body() createProducDto: CreateProductDto,
   ): Promise<Product> {
-    return await this.productsService.createProduct(createProducDto);
+    return await this.productService.createProduct(createProducDto);
   }
 
   @Get()
   @ApiOkResponse({ type: ProductDto, isArray: true })
   async getAllProducts(): Promise<Product[]> {
-    return await this.productsService.getAllProducts();
+    return await this.productService.getAllProducts();
   }
 
   @Get(':id')
@@ -48,7 +48,7 @@ export class ProductsController {
   async getOneProduct(
     @Param('id', new ParseUUIDPipe()) id: string,
   ): Promise<Product> {
-    return await this.productsService.getOneProduct(id);
+    return await this.productService.getOneProduct(id);
   }
 
   @Put(':id')
@@ -58,7 +58,7 @@ export class ProductsController {
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updateProductDto: UpdateProductDto,
   ): Promise<Product> {
-    return await this.productsService.updateProduct(id, updateProductDto);
+    return await this.productService.updateProduct(id, updateProductDto);
   }
 
   @Delete(':id')
@@ -67,6 +67,6 @@ export class ProductsController {
   async deleteProduct(
     @Param('id', new ParseUUIDPipe()) id: string,
   ): Promise<Product> {
-    return await this.productsService.deleteProduct(id);
+    return await this.productService.deleteProduct(id);
   }
 }

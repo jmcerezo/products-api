@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { DatabaseService } from './../database/database.service';
+import { DatabaseService } from '../database/database.service';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
 import { Review } from '@prisma/client';
 
 @Injectable()
-export class ReviewsService {
+export class ReviewService {
   constructor(private readonly databaseService: DatabaseService) {}
 
   async createReview(createReviewDto: CreateReviewDto): Promise<Review> {
