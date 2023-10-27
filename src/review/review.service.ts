@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { DatabaseService } from '../database/database.service';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
@@ -23,7 +27,11 @@ export class ReviewService {
   }
 
   async getAllReviews(): Promise<Review[]> {
-    return await this.databaseService.review.findMany({});
+    try {
+      return await this.databaseService.review.findMany({});
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
   async getOneReview(id: string): Promise<Review> {

@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { DatabaseService } from '../database/database.service';
@@ -25,7 +26,11 @@ export class ProductService {
   }
 
   async getAllProducts(): Promise<Product[]> {
-    return await this.databaseService.product.findMany({});
+    try {
+      return await this.databaseService.product.findMany({});
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
   async getOneProduct(id: string): Promise<Product> {
