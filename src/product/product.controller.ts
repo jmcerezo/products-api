@@ -18,8 +18,8 @@ import {
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { ProductReviewsDto } from './dto/product-reviews.dto';
-import { ProductDto } from './dto/product.dto';
+import { ProductEntity } from './entities/product.entity';
+import { ProductsEntity } from './entities/products.entity';
 import { Product } from '@prisma/client';
 
 @Controller('products')
@@ -28,7 +28,7 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Post()
-  @ApiCreatedResponse({ type: ProductDto })
+  @ApiCreatedResponse({ type: ProductsEntity })
   @ApiBadRequestResponse({ description: 'Error: Bad Request' })
   async createProduct(
     @Body() createProducDto: CreateProductDto,
@@ -37,13 +37,13 @@ export class ProductController {
   }
 
   @Get()
-  @ApiOkResponse({ type: ProductDto, isArray: true })
+  @ApiOkResponse({ type: ProductsEntity, isArray: true })
   async getAllProducts(): Promise<Product[]> {
     return await this.productService.getAllProducts();
   }
 
   @Get(':id')
-  @ApiOkResponse({ type: ProductReviewsDto })
+  @ApiOkResponse({ type: ProductEntity })
   @ApiNotFoundResponse({ description: 'Error: Not Found' })
   async getOneProduct(
     @Param('id', new ParseUUIDPipe()) id: string,
@@ -52,7 +52,7 @@ export class ProductController {
   }
 
   @Put(':id')
-  @ApiOkResponse({ type: ProductReviewsDto })
+  @ApiOkResponse({ type: ProductEntity })
   @ApiNotFoundResponse({ description: 'Error: Not Found' })
   async updateProduct(
     @Param('id', new ParseUUIDPipe()) id: string,
@@ -62,7 +62,7 @@ export class ProductController {
   }
 
   @Delete(':id')
-  @ApiOkResponse({ type: ProductReviewsDto })
+  @ApiOkResponse({ type: ProductEntity })
   @ApiNotFoundResponse({ description: 'Error: Not Found' })
   async deleteProduct(
     @Param('id', new ParseUUIDPipe()) id: string,

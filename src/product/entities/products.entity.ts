@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { $Enums, Product } from '@prisma/client';
 
-export class ProductDto implements Product {
+export class ProductsEntity implements Product {
   @ApiProperty({ example: '69e9d7a0-6ecf-445d-ae00-854c67623d3f' })
   readonly id: string;
 

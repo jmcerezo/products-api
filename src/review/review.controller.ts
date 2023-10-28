@@ -17,7 +17,7 @@ import {
 import { ReviewService } from './review.service';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
-import { ReviewDto } from './dto/review.dto';
+import { ReviewEntity } from './entities/review.entity';
 import { Review } from '@prisma/client';
 
 @Controller('reviews')
@@ -26,7 +26,7 @@ export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
 
   @Post()
-  @ApiCreatedResponse({ type: ReviewDto })
+  @ApiCreatedResponse({ type: ReviewEntity })
   async createReview(
     @Body() createReviewDto: CreateReviewDto,
   ): Promise<Review> {
@@ -34,13 +34,13 @@ export class ReviewController {
   }
 
   @Get()
-  @ApiOkResponse({ type: ReviewDto, isArray: true })
+  @ApiOkResponse({ type: ReviewEntity, isArray: true })
   async getAllReviews(): Promise<Review[]> {
     return await this.reviewService.getAllReviews();
   }
 
   @Get(':id')
-  @ApiOkResponse({ type: ReviewDto })
+  @ApiOkResponse({ type: ReviewEntity })
   @ApiNotFoundResponse({ description: 'Error: Not Found' })
   async getOneReview(
     @Param('id', new ParseUUIDPipe()) id: string,
@@ -49,7 +49,7 @@ export class ReviewController {
   }
 
   @Put(':id')
-  @ApiOkResponse({ type: ReviewDto })
+  @ApiOkResponse({ type: ReviewEntity })
   @ApiNotFoundResponse({ description: 'Error: Not Found' })
   async updateReview(
     @Param('id', new ParseUUIDPipe()) id: string,
@@ -59,7 +59,7 @@ export class ReviewController {
   }
 
   @Delete(':id')
-  @ApiOkResponse({ type: ReviewDto })
+  @ApiOkResponse({ type: ReviewEntity })
   @ApiNotFoundResponse({ description: 'Error: Not Found' })
   async deleteReview(
     @Param('id', new ParseUUIDPipe()) id: string,
