@@ -4,18 +4,18 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { DatabaseService } from '../database/database.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from '@prisma/client';
 
 @Injectable()
-export class ProductService {
-  constructor(private readonly databaseService: DatabaseService) {}
+export class ProductsService {
+  constructor(private readonly prismaService: PrismaService) {}
 
   async createProduct(createProductDto: CreateProductDto): Promise<Product> {
     try {
-      return await this.databaseService.product.create({
+      return await this.prismaService.product.create({
         data: createProductDto,
       });
     } catch (error) {
@@ -27,14 +27,14 @@ export class ProductService {
 
   async getAllProducts(): Promise<Product[]> {
     try {
-      return await this.databaseService.product.findMany({});
+      return await this.prismaService.product.findMany({});
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
   }
 
   async getOneProduct(id: string): Promise<Product> {
-    const product = await this.databaseService.product.findUnique({
+    const product = await this.prismaService.product.findUnique({
       where: { id },
       include: { reviews: true },
     });
@@ -51,7 +51,7 @@ export class ProductService {
     updateProductDto: UpdateProductDto,
   ): Promise<Product> {
     try {
-      return await this.databaseService.product.update({
+      return await this.prismaService.product.update({
         where: { id },
         data: updateProductDto,
         include: { reviews: true },
@@ -65,7 +65,7 @@ export class ProductService {
 
   async deleteProduct(id: string): Promise<Product> {
     try {
-      return await this.databaseService.product.delete({
+      return await this.prismaService.product.delete({
         where: { id },
         include: { reviews: true },
       });

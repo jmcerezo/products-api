@@ -3,17 +3,17 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { DatabaseService } from '../database/database.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
 import { Review } from '@prisma/client';
 
 @Injectable()
-export class ReviewService {
-  constructor(private readonly databaseService: DatabaseService) {}
+export class ReviewsService {
+  constructor(private readonly prismaService: PrismaService) {}
 
   async createReview(createReviewDto: CreateReviewDto): Promise<Review> {
-    const product = await this.databaseService.product.findUnique({
+    const product = await this.prismaService.product.findUnique({
       where: { id: createReviewDto.productId },
     });
 
@@ -21,21 +21,21 @@ export class ReviewService {
       throw new NotFoundException('Product does not exist.');
     }
 
-    return await this.databaseService.review.create({
+    return await this.prismaService.review.create({
       data: createReviewDto,
     });
   }
 
   async getAllReviews(): Promise<Review[]> {
     try {
-      return await this.databaseService.review.findMany({});
+      return await this.prismaService.review.findMany({});
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
   }
 
   async getOneReview(id: string): Promise<Review> {
-    const review = await this.databaseService.review.findUnique({
+    const review = await this.prismaService.review.findUnique({
       where: { id },
     });
 
@@ -51,7 +51,7 @@ export class ReviewService {
     updateReviewDto: UpdateReviewDto,
   ): Promise<Review> {
     try {
-      return await this.databaseService.review.update({
+      return await this.prismaService.review.update({
         where: { id },
         data: updateReviewDto,
       });
@@ -64,7 +64,7 @@ export class ReviewService {
 
   async deleteReview(id: string): Promise<Review> {
     try {
-      return await this.databaseService.review.delete({
+      return await this.prismaService.review.delete({
         where: { id },
       });
     } catch (error) {
