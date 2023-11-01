@@ -11,11 +11,11 @@ import { Product } from '@prisma/client';
 
 @Injectable()
 export class ProductsService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async createProduct(createProductDto: CreateProductDto): Promise<Product> {
     try {
-      return await this.prismaService.product.create({
+      return await this.prisma.product.create({
         data: createProductDto,
       });
     } catch (error) {
@@ -27,14 +27,14 @@ export class ProductsService {
 
   async getAllProducts(): Promise<Product[]> {
     try {
-      return await this.prismaService.product.findMany({});
+      return await this.prisma.product.findMany({});
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
   }
 
   async getOneProduct(id: string): Promise<Product> {
-    const product = await this.prismaService.product.findUnique({
+    const product = await this.prisma.product.findUnique({
       where: { id },
       include: { reviews: true },
     });
@@ -51,7 +51,7 @@ export class ProductsService {
     updateProductDto: UpdateProductDto,
   ): Promise<Product> {
     try {
-      return await this.prismaService.product.update({
+      return await this.prisma.product.update({
         where: { id },
         data: updateProductDto,
         include: { reviews: true },
@@ -65,7 +65,7 @@ export class ProductsService {
 
   async deleteProduct(id: string): Promise<Product> {
     try {
-      return await this.prismaService.product.delete({
+      return await this.prisma.product.delete({
         where: { id },
         include: { reviews: true },
       });

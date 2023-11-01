@@ -10,10 +10,10 @@ import { Review } from '@prisma/client';
 
 @Injectable()
 export class ReviewsService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async createReview(createReviewDto: CreateReviewDto): Promise<Review> {
-    const product = await this.prismaService.product.findUnique({
+    const product = await this.prisma.product.findUnique({
       where: { id: createReviewDto.productId },
     });
 
@@ -21,21 +21,21 @@ export class ReviewsService {
       throw new NotFoundException('Product does not exist.');
     }
 
-    return await this.prismaService.review.create({
+    return await this.prisma.review.create({
       data: createReviewDto,
     });
   }
 
   async getAllReviews(): Promise<Review[]> {
     try {
-      return await this.prismaService.review.findMany({});
+      return await this.prisma.review.findMany({});
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
   }
 
   async getOneReview(id: string): Promise<Review> {
-    const review = await this.prismaService.review.findUnique({
+    const review = await this.prisma.review.findUnique({
       where: { id },
     });
 
@@ -51,7 +51,7 @@ export class ReviewsService {
     updateReviewDto: UpdateReviewDto,
   ): Promise<Review> {
     try {
-      return await this.prismaService.review.update({
+      return await this.prisma.review.update({
         where: { id },
         data: updateReviewDto,
       });
@@ -64,7 +64,7 @@ export class ReviewsService {
 
   async deleteReview(id: string): Promise<Review> {
     try {
-      return await this.prismaService.review.delete({
+      return await this.prisma.review.delete({
         where: { id },
       });
     } catch (error) {
