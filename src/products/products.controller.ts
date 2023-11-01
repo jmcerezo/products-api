@@ -9,7 +9,7 @@ import {
   Put,
 } from '@nestjs/common';
 import {
-  ApiBadRequestResponse,
+  ApiConflictResponse,
   ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
@@ -29,11 +29,11 @@ export class ProductsController {
 
   @Post()
   @ApiCreatedResponse({ type: ProductsEntity })
-  @ApiBadRequestResponse({ description: 'Error: Bad Request' })
+  @ApiConflictResponse({ description: 'Error: Conflict' })
   async createProduct(
-    @Body() createProducDto: CreateProductDto,
+    @Body() createProductDto: CreateProductDto,
   ): Promise<Product> {
-    return await this.productsService.createProduct(createProducDto);
+    return await this.productsService.createProduct(createProductDto);
   }
 
   @Get()

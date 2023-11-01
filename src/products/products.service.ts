@@ -1,5 +1,5 @@
 import {
-  BadRequestException,
+  ConflictException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -20,7 +20,7 @@ export class ProductsService {
       });
     } catch (error) {
       if (error.code === 'P2002') {
-        throw new BadRequestException('Product already exists.');
+        throw new ConflictException('Product already exists.');
       }
     }
   }
