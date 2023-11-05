@@ -11,6 +11,8 @@ services:
       - postgres-db:/var/lib/postgresql/data
   api:
     build: .
+    depends_on:
+      - postgres-db
     ports:
       - 3004:3000
     environment:
