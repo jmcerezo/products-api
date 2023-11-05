@@ -12,7 +12,7 @@ services:
   api:
     build: .
     ports:
-      - 3000:3000
+      - 3004:3000
     environment:
       DATABASE_URL: postgresql://postgres:randompassword@postgres-db:5432/products_api?schema=public
       PORT: 3000
