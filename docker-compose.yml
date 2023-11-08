@@ -11,6 +11,7 @@ services:
       - postgres-db:/var/lib/postgresql/data
   api:
     build: .
+    restart: on-failure:3
     depends_on:
       - postgres-db
     ports:
